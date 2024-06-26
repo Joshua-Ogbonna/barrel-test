@@ -27,8 +27,17 @@ interface PurchaseOrdersResponse {
   orders: PurchaseOrder[];
 }
 
+interface PaginatedProducts {
+  orders: PurchaseOrder[];
+  total: number;
+  limit: number;
+  page: number;
+  pages: number;
+}
+
 export {
   PurchaseOrder,
   OrderItem,
-  PurchaseOrdersResponse
+  PurchaseOrdersResponse,
+  PaginatedProducts
 }

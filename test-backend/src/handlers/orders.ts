@@ -1,14 +1,6 @@
 import { Request, Response } from "express";
 import { purchaseOrdersResponse } from "../utils/generateOrders";
-import { OrderItem, PurchaseOrder } from "../types";
-
-interface PaginatedProducts {
-  orders: PurchaseOrder[];
-  total: number;
-  limit: number;
-  page: number;
-  pages: number;
-}
+import { OrderItem, PurchaseOrder, PaginatedProducts } from "../types";
 
 export const getOrders = (req: Request, res: Response) => {
   try {
@@ -41,15 +33,39 @@ export const getOrders = (req: Request, res: Response) => {
 
     res.json({ data: orders });
   } catch (error) {
-    return res.json({ error })
+    return res.status(500).json({ error });
   }
 };
 
-export const createOrder = (req: Request<{},{}, Omit<PurchaseOrder, "id">>, res: Response) => {
+export const createOrder = (
+  req: Request<{}, {}, Omit<PurchaseOrder, "id">>,
+  res: Response
+) => {
   try {
-    const { supplier, orderDate, items, totalAmount, status, deliveryDate, notes, createdBy, approvedBy, currency, paymentTerms } = req.body;
+    const {
+      supplier,
+      orderDate,
+      items,
+      totalAmount,
+      status,
+      deliveryDate,
+      notes,
+      createdBy,
+      approvedBy,
+      currency,
+      paymentTerms,
+    } = req.body;
 
-    if (!supplier || !orderDate || !items || !totalAmount || !status || !createdBy || !currency || !paymentTerms) {
+    if (
+      !supplier ||
+      !orderDate ||
+      !items ||
+      !totalAmount ||
+      !status ||
+      !createdBy ||
+      !currency ||
+      !paymentTerms
+    ) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -79,9 +95,11 @@ export const createOrder = (req: Request<{},{}, Omit<PurchaseOrder, "id">>, res:
     purchaseOrdersResponse.orders.push(newOrder);
     const totalOrders = purchaseOrdersResponse.orders.length;
 
-    return res.status(201).json({ data: newOrder, message: "Order created successfully!" });
+    return res
+      .status(201)
+      .json({ data: newOrder, message: "Order created successfully!" });
   } catch (error) {
-    console.log("error", error)
-    return res.status(500).json({ error });
+    console.log("error", error);
+    return res.status(500).json({ error: "An unexpected error occurred" });
   }
 };
