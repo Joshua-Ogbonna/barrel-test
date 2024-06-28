@@ -1,0 +1,54 @@
+.order__form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.order__form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order__form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.order__form input,
+.order__form textarea, .order__form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.order__form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--button-primary-bg);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.order__form button:hover {
+  background-color: var(--button-primary-bg);
+}
+
+.order__form .items {
+  margin-bottom: 20px;
+}
+
+.order__form .item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
