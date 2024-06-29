@@ -11,7 +11,8 @@ import Pagination from "@/components/pagination/Pagination";
 
 export default function Home() {
   const router = useRouter();
-  const { loading, orders, fetchOrders, page } = useAppContext();
+  const { loading, orders, fetchOrders, page, requestState, message } =
+    useAppContext();
 
   useEffect(() => {
     fetchOrders();
@@ -37,6 +38,8 @@ export default function Home() {
         {/* Order list */}
         {loading === "fetch-orders" ? (
           <div>Fetching orders...</div>
+        ) : requestState === "error" ? (
+          <div>Error fetching order. Please try again </div>
         ) : orders.length ? (
           <>
             <OrderList orders={orders} />

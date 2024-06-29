@@ -21,6 +21,8 @@ interface Props {
   totalPages: number;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
+  requestState: "error" | "success" | null;
+  message: string;
 }
 
 const Context = createContext<Props | null>(null);
@@ -31,17 +33,28 @@ const AppContext: FC<{ children: React.ReactNode }> = ({ children }) => {
   const [order, setOrder] = useState<PurchaseOrder | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
+  const [requestState, setRequestState] = useState<"error" | "success" | null>(
+    null
+  );
+  const [message, setMessage] = useState("");
 
   //   Fetch orders
   const fetchOrders = async () => {
     setLoading("fetch-orders");
+    setRequestState(null);
+    setMessage("");
     try {
       const { data } = await axios.get(`/api/orders`);
       console.log(data?.data);
       setTotalPages(data?.data?.pages);
       setOrders(data?.data?.orders as PurchaseOrder[]);
+      setRequestState("success");
+      setMessage("Success");
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setMessage(error.message);
+        setRequestState("error");
+      }
     } finally {
       setLoading(null);
     }
@@ -50,12 +63,19 @@ const AppContext: FC<{ children: React.ReactNode }> = ({ children }) => {
   //   Fetch order
   const fetchOrder = async (id: string) => {
     setLoading("fetch-order");
+    setRequestState(null);
+    setMessage("");
     try {
       const { data } = await axios.get(`/api/order/${id}?page=${page}`);
       console.log(data?.data?.data);
       setOrder(data?.data?.data as PurchaseOrder);
+      setRequestState("success");
+      setMessage(data?.data?.message);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setMessage(error.message);
+        setRequestState("error");
+      }
     } finally {
       setLoading(null);
     }
@@ -73,6 +93,8 @@ const AppContext: FC<{ children: React.ReactNode }> = ({ children }) => {
         totalPages,
         page,
         setPage,
+        requestState,
+        message
       }}
     >
       {children}
@@ -86,4 +108,4 @@ export const useAppContext = () => {
   return context as Props;
 };
 
-export default AppContext
+export default AppContext;

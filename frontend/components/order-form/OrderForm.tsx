@@ -259,10 +259,6 @@ const OrderForm: React.FC = () => {
           Add Item
         </button>
 
-        <button type="button" onClick={addItem}>
-          Add Item
-        </button>
-
         <label htmlFor="totalAmount">Total Amount</label>
         <input
           type="number"
