@@ -63,5 +63,23 @@ describe("OrderForm", () => {
     expect(supplierInput).toHaveValue("New Supplier");
   });
 
-  
+  test("handles adding and removing items", () => {
+    render(<OrderForm />);
+    const addItemButton = screen.getByRole("button", { name: /Add Item/i });
+    fireEvent.click(addItemButton);
+    expect(screen.getAllByLabelText("Product Name").length).toBe(2);
+
+    const removeItemButton = screen.getAllByRole("button", {
+      name: /Remove Item/i,
+    })[1];
+    fireEvent.click(removeItemButton);
+    expect(screen.getAllByLabelText("Product Name").length).toBe(1);
+  });
+
+    test("handles form submission for new order", () => {
+      render(<OrderForm />);
+      const submitButton = screen.getByRole("button", { name: /Submit/i });
+      fireEvent.click(submitButton);
+      expect(mockSetLoading).toHaveBeenCalledWith("new-order");
+    });
 });
