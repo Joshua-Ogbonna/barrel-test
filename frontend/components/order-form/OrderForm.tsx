@@ -157,19 +157,21 @@ const OrderForm: React.FC = () => {
     <div className={styles.order__form}>
       <h2>Create Order</h2>
       <form onSubmit={edit === "true" ? handleEditOrder : handleSubmit}>
-        <label>Supplier</label>
+        <label htmlFor="supplier">Supplier</label>
         <input
           type="text"
           name="supplier"
+          id="supplier"
           value={order.supplier}
           onChange={handleChange}
           required
         />
 
-        <label>Order Date</label>
+        <label htmlFor="orderDate">Order Date</label>
         <input
           type="date"
           name="orderDate"
+          id="orderDate"
           value={order.orderDate}
           onChange={handleChange}
           required
@@ -178,62 +180,69 @@ const OrderForm: React.FC = () => {
         <div className={styles.items}>
           {order.items.map((item, index) => (
             <div key={index} className={styles.item}>
-              <label>Product ID</label>
+              <label htmlFor={`productId-${index}`}>Product ID</label>
               <input
                 type="number"
                 name="productId"
-                value={order.items.length + 1}
+                id={`productId-${index}`}
+                value={item.productId}
                 disabled
               />
 
-              <label>Product Name</label>
+              <label htmlFor={`productName-${index}`}>Product Name</label>
               <input
                 type="text"
+                id={`productName-${index}`}
                 name="productName"
                 value={item.productName}
                 onChange={(e) => handleItemChange(index, e)}
                 required
               />
 
-              <label>Quantity</label>
+              <label htmlFor={`quantity-${index}`}>Quantity</label>
               <input
                 type="number"
                 name="quantity"
+                id={`quantity-${index}`}
                 value={item.quantity}
                 onChange={(e) => handleItemChange(index, e)}
                 required
               />
 
-              <label>Price</label>
+              <label htmlFor={`price-${index}`}>Price</label>
               <input
                 type="number"
                 name="price"
+                id={`price-${index}`}
                 value={item.price}
                 onChange={(e) => handleItemChange(index, e)}
                 required
               />
 
-              <label>Unit</label>
+              <label htmlFor={`unit-${index}`}>Unit</label>
               <input
                 type="text"
                 name="unit"
+                id={`unit-${index}`}
                 value={item.unit}
                 onChange={(e) => handleItemChange(index, e)}
                 required
               />
 
-              <label>Discount</label>
+              <label htmlFor={`discount-${index}`}>Discount</label>
               <input
                 type="number"
                 name="discount"
+                id={`discount-${index}`}
                 value={item.discount}
                 onChange={(e) => handleItemChange(index, e)}
               />
 
-              <label>Total Price</label>
+              <label htmlFor={`totalPrice-${index}`}>Total Price</label>
               <input
                 type="number"
                 name="totalPrice"
+                id={`totalPrice-${index}`}
                 value={item.price * item.quantity}
                 onChange={(e) => handleItemChange(index, e)}
                 disabled
@@ -250,23 +259,33 @@ const OrderForm: React.FC = () => {
           Add Item
         </button>
 
-        <label>Total Amount</label>
+        <button type="button" onClick={addItem}>
+          Add Item
+        </button>
+
+        <label htmlFor="totalAmount">Total Amount</label>
         <input
           type="number"
+          id="totalAmount"
           name="totalAmount"
           value={order.totalAmount}
           onChange={handleChange}
           required
         />
 
-        <label>Status</label>
+        <label htmlFor="status">Status</label>
         {/* <input
           type="text"
           name="status"
           value={order.status}
           onChange={handleChange}
         /> */}
-        <select name="status" value={order.status} onChange={handleChange}>
+        <select
+          name="status"
+          id="status"
+          value={order.status}
+          onChange={handleChange}
+        >
           <option value={order.status}>{order.status} </option>
           {["Pending", "Completed", "Cancelled"]
             .filter((status) => status !== order.status)
@@ -275,52 +294,58 @@ const OrderForm: React.FC = () => {
             ))}
         </select>
 
-        <label>Delivery Date</label>
+        <label htmlFor="deliveryDate">Delivery Date</label>
         <input
           type="date"
           name="deliveryDate"
+          id="deliveryDate"
           value={order.deliveryDate}
           onChange={handleChange}
           required
         />
 
-        <label>Notes</label>
+        <label htmlFor="notes">Notes</label>
         <textarea
           name="notes"
+          id="notes"
           value={order.notes}
           onChange={handleChange}
         ></textarea>
 
-        <label>Created By</label>
+        <label htmlFor="createdBy">Created By</label>
         <input
           type="text"
+          id="createdBy"
           name="createdBy"
           value={order.createdBy}
           onChange={handleChange}
           required
         />
 
-        <label>Approved By</label>
+        <label htmlFor="approvedBy">Approved By</label>
         <input
           type="text"
+          id="approvedBy"
           name="approvedBy"
           value={order.approvedBy}
           onChange={handleChange}
           required
         />
 
-        <label>Currency</label>
+        <label htmlFor="currency">Currency</label>
         <input
           type="text"
+          id="currency"
           name="currency"
           value={order.currency}
           onChange={handleChange}
           required
         />
 
-        <label>Payment Terms</label>
+        <label htmlFor="paymentTerms">Payment Terms</label>
         <input
           type="text"
+          id="paymentTerms"
           name="paymentTerms"
           value={order.paymentTerms}
           onChange={handleChange}
@@ -330,7 +355,7 @@ const OrderForm: React.FC = () => {
         <button type="submit">
           {loading === "new-order" || loading === "edit-order"
             ? "..."
-            : "Create Order"}
+            : "Submit"}
         </button>
       </form>
     </div>
